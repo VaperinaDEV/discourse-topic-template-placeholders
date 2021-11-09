@@ -1,11 +1,14 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import { default as discourseComputed } from 'discourse-common/utils/decorators';
+const PLUGIN_ID = 'DiscourseTopicTemplatePlaceholders';
 
 export default {
   name: 'topic-template-init',
   initialize (container) {
     withPluginApi ('0.8.12', api => {
       api.modifyClass ('component:d-editor', {
+        pluginId: PLUGIN_ID,
+        
         @discourseComputed ('placeholder')
         placeholderTranslated (placeholder) {
           const placeholder_indicator = settings.topic_template_placeholder_indicator
@@ -20,6 +23,8 @@ export default {
         },
       });
       api.modifyClass ('component:composer-editor', {
+        pluginId: PLUGIN_ID,
+        
         @discourseComputed ('composer.requiredCategoryMissing')
         replyPlaceholder (requiredCategoryMissing) {
           if (!(this.topic !== null && settings.only_apply_on_first_post)) {
@@ -47,6 +52,8 @@ export default {
         },
       });
       api.modifyClass ('model:composer', {
+        pluginId: PLUGIN_ID,
+  
         applyTopicTemplate (oldCategoryId, categoryId) {
           this._super (oldCategoryId, categoryId);
 
